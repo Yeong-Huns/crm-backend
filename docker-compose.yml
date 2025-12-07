@@ -1,0 +1,17 @@
+volumes:
+  mariadb_data:
+
+services:
+  mariadb:
+    image: mariadb:11.4
+    container_name: mariadb
+    ports:
+      - '3306:3306'
+    environment:
+      - MARIADB_ROOT_PASSWORD=enex2010
+      - MARIADB_USER=root
+      - MARIADB_PASSWORD=enex2010
+      - MARIADB_DATABASE=student_db
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    restart: always
