@@ -1,4 +1,25 @@
-GET http://localhost:3000/
-Accept: application/json
+POST http://localhost:3009/auth/sign-up
+Content-Type: application/json
+
+{
+  "email": "qqqq@naver.com",
+  "password": "qwer1234",
+  "name": "qwer"
+}
 
 ###
+POST http://localhost:3009/auth/sign-in
+Content-Type: application/json
+
+{
+  "email": "qqqq@naver.com",
+  "password": "qwer1234"
+}
+
+###
+POST http://localhost:3009/auth/token/access
+Content-Type: application/json
+
+###
+GET http://localhost:3009/auth/private
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJBRE1JTiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3NjUyMjI2MDUsImV4cCI6MTc2NTIyMzUwNX0.y50psfzIqMcJQxqqjRF8ToqrmvR1E5LM2QB8KwZDpd4

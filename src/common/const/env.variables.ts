@@ -9,4 +9,11 @@ export const ENV_VARIABLES = {
   hashRounds: 'HASH_ROUNDS',
   accessTokenSecret: 'ACCESS_TOKEN_SECRET',
   refreshTokenSecret: 'REFRESH_TOKEN_SECRET',
+  accessTokenExpiresIn: 'ACCESS_TOKEN_EXPIRES_IN',
+  refreshTokenExpiresIn: 'REFRESH_TOKEN_EXPIRES_IN',
 };
+
+export enum TokenType {
+  ACCESS = 'access',
+  REFRESH = 'refresh',
+}

@@ -1,13 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MoviesModule } from './movies/movies.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import Joi from 'joi';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { addTransactionalDataSource } from 'typeorm-transactional';
 import { ENV_VARIABLES } from './common/const/env.variables';
+import { User } from './user/entities/user.entity';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
+import { JwtAuthGuard } from './auth/guard/access-token.guard';
+import { RoleGuard } from './auth/guard/role.guard';
 
 @Module({
   imports: [
@@ -34,6 +38,7 @@ import { ENV_VARIABLES } from './common/const/env.variables';
         username: configService.get<string>(ENV_VARIABLES.dbUsername),
         password: configService.get<string>(ENV_VARIABLES.dbPassword),
         database: configService.get<string>(ENV_VARIABLES.dbDatabase),
+        entities: [User],
         synchronize: true,
         logging: true,
         logger: 'formatted-console',
@@ -47,9 +52,20 @@ import { ENV_VARIABLES } from './common/const/env.variables';
         return addTransactionalDataSource(await dataSource.initialize());
       },
     }),
-    MoviesModule,
+    AuthModule,
+    UserModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    {
+      provide: 'APP_GUARD',
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: 'APP_GUARD',
+      useClass: RoleGuard,
+    },
+    AppService,
+  ],
 })
 export class AppModule {}
