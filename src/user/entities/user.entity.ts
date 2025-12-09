@@ -2,10 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { UserRole } from '../type/user.role';
 import { ApiProperty } from '@nestjs/swagger';
+import { Role } from '../../role/entities/role.entity';
 
 @Entity()
 export class User {
@@ -26,12 +28,9 @@ export class User {
   name: string;
 
   @ApiProperty({ description: '권한' })
-  @Column({
-    type: 'enum',
-    enum: UserRole,
-    default: UserRole.ADMIN,
-  })
-  role: UserRole;
+  @OneToOne(() => Role, (role) => role.id)
+  @JoinColumn()
+  role: Role;
 
   @ApiProperty({ description: '계정 생성일' })
   @CreateDateColumn()

@@ -30,6 +30,7 @@ async function bootstrap() {
     .setDescription('유학생 서류접수 시스템')
     .setVersion('1.0')
     .addTag('seesaw')
+    /* 헤더검증(액세스토큰) */
     .addBearerAuth(
       {
         type: 'http',
@@ -40,6 +41,17 @@ async function bootstrap() {
         in: 'header',
       },
       'access-token',
+    )
+    /* 쿠키검증(리프레쉬)*/
+    .addCookieAuth(
+      'refreshToken',
+      {
+        type: 'apiKey',
+        in: 'cookie',
+        name: 'refreshToken',
+        description: 'refresh token',
+      },
+      'refresh-token',
     )
     .build();
 

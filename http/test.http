@@ -2,9 +2,10 @@ POST http://localhost:3009/auth/sign-up
 Content-Type: application/json
 
 {
-  "email": "qqqq@naver.com",
+  "email": "qqqq2@naver.com",
   "password": "qwer1234",
-  "name": "qwer"
+  "name": "qwer",
+  "role": 2
 }
 
 ###
@@ -12,9 +13,13 @@ POST http://localhost:3009/auth/sign-in
 Content-Type: application/json
 
 {
-  "email": "qqqq@naver.com",
+  "email": "qqqq2@naver.com",
   "password": "qwer1234"
 }
+
+###
+POST http://localhost:3009/auth/sign-out
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJTVVBFUlZJU09SIiwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTc2NTMwNDQzNywiZXhwIjoxNzY1MzA1MzM3fQ.747ZQNEMhvkADzw_CGoKgq0ktp07FMPBppY4xY-ZleU
 
 ###
 POST http://localhost:3009/auth/token/access
