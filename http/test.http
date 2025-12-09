@@ -23,3 +23,7 @@ Content-Type: application/json
 ###
 GET http://localhost:3009/auth/private
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsInJvbGUiOiJBRE1JTiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3NjUyMjI2MDUsImV4cCI6MTc2NTIyMzUwNX0.y50psfzIqMcJQxqqjRF8ToqrmvR1E5LM2QB8KwZDpd4
+
+###
+GET http://localhost:3009/auth/me
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInJvbGUiOiJBRE1JTiIsInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3NjUyNjkwODcsImV4cCI6MTc2NTI2OTk4N30.M9hM6oiRoZpIWJ5f2U29aB6L3JdiNfkvqfnUShyeyl8

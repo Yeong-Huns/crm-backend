@@ -11,13 +11,19 @@ import {
 import { AuthService } from './auth.service';
 import { Public } from './decorator/public.decorator';
 import { TokenPayload } from './const/auth.const';
-import type { Response } from 'express';
+import type { Request as ExpressRequest, Response } from 'express';
 import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 import { Refresh } from './decorator/refresh.decorator';
 import { Role } from './decorator/role-based-access-control.decorator';
 import { UserRole } from '../user/type/user.role';
+import { ApiTags } from '@nestjs/swagger';
 
+interface TokenRequest extends ExpressRequest {
+  user: TokenPayload;
+}
+
+@ApiTags('인증/인가')
 @Controller('auth')
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
@@ -54,8 +60,11 @@ export class AuthController {
   private(@Request() request: TokenRequest) {
     return request.user;
   }
-}
 
-interface TokenRequest extends Request {
-  user: TokenPayload;
+  @Get('me')
+  getMe(@Request() req: TokenRequest) {
+    const payload = req.user;
+    console.log('payload', payload);
+    return { payload };
+  }
 }
