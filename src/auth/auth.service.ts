@@ -55,6 +55,7 @@ export class AuthService {
 
   async login(signInDto: SignInDto, res: Response) {
     const { email, password } = signInDto;
+    console.log('login', signInDto);
 
     /* validation*/
     const user = await this.authenticate(email, password);
@@ -73,6 +74,7 @@ export class AuthService {
     const user = await this.userRepository
       .createQueryBuilder('user')
       .innerJoinAndSelect('user.role', 'role')
+      .where('user.email = :email', { email })
       .getOne();
 
     console.log('user', user);
