@@ -14,6 +14,8 @@ import { JwtAuthGuard } from './auth/guard/access-token.guard';
 import { RoleGuard } from './auth/guard/role.guard';
 import { RoleModule } from './role/role.module';
 import { Role } from './role/entities/role.entity';
+import { RegistrationStatusModule } from './registration-status/registration-status.module';
+import { RegistrationStatus } from './registration-status/entities/registration-status.entity';
 
 @Module({
   imports: [
@@ -40,7 +42,7 @@ import { Role } from './role/entities/role.entity';
         username: configService.get<string>(ENV_VARIABLES.dbUsername),
         password: configService.get<string>(ENV_VARIABLES.dbPassword),
         database: configService.get<string>(ENV_VARIABLES.dbDatabase),
-        entities: [User, Role],
+        entities: [User, Role, RegistrationStatus],
         synchronize: true,
         logging: true,
         logger: 'formatted-console',
@@ -57,6 +59,7 @@ import { Role } from './role/entities/role.entity';
     AuthModule,
     UserModule,
     RoleModule,
+    RegistrationStatusModule,
   ],
   controllers: [AppController],
   providers: [

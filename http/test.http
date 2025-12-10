@@ -4,8 +4,12 @@ Content-Type: application/json
 {
   "email": "qqqq2@naver.com",
   "password": "qwer1234",
-  "name": "qwer",
-  "role": 2
+  "name": "홍길동",
+  "country": 1,
+  "organization": 1,
+  "address": "서울 강남구",
+  "role": 2,
+  "registrationStatus": 3
 }
 
 ###
@@ -13,7 +17,7 @@ POST http://localhost:3009/auth/sign-in
 Content-Type: application/json
 
 {
-  "email": "qqqq2@naver.com",
+  "email": "qqqq@naver.com",
   "password": "qwer1234"
 }
 

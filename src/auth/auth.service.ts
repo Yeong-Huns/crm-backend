@@ -11,6 +11,7 @@ import { SignInDto } from './dto/sign-in.dto';
 import { SignUpDto } from './dto/sign-up.dto';
 import { UserRole } from '../user/type/user.role';
 import { Role } from '../role/entities/role.entity';
+import { RegistrationStatus } from '../registration-status/entities/registration-status.entity';
 
 @Injectable()
 export class AuthService {
@@ -25,7 +26,14 @@ export class AuthService {
     return await this.userRepository.manager.transaction(
       'READ COMMITTED',
       async (manager) => {
-        const { email, password, name, role: roleId } = signUpDto;
+        const {
+          email,
+          password,
+          name,
+          role: roleId,
+          registrationStatus: registrationStatusId,
+        } = signUpDto;
+
         const isExist = await manager.getRepository(User).existsBy({ email });
         if (isExist)
           throw new BadRequestException(
@@ -38,16 +46,24 @@ export class AuthService {
           this.configService.get<number>(ENV_VARIABLES.hashRounds),
         );
 
-        const role = await manager
-          .getRepository(Role)
-          .findOneBy({ id: roleId });
+        const [role, registrationStatus] = await Promise.all([
+          manager.getRepository(Role).findOneBy({ id: roleId }),
+          manager
+            .getRepository(RegistrationStatus)
+            .findOneBy({ id: registrationStatusId }),
+        ]);
+
+        if (!role) throw new BadRequestException('존재하지 않는 권한입니다.');
+
+        if (!registrationStatus)
+          throw new BadRequestException('존재하지 않는 가입상태입니다.');
 
         /* DB 저장 */
         return await manager.getRepository(User).save({
-          email,
+          ...signUpDto,
           password: hash,
-          name,
           role,
+          registrationStatus,
         });
       },
     );
@@ -64,7 +80,7 @@ export class AuthService {
 
     const accessToken = await this.issueAccessToken({
       id: user.id,
-      role: user.role.role,
+      role: user.role.name,
     });
 
     return { accessToken };
@@ -94,7 +110,7 @@ export class AuthService {
 
   private async issueRefreshToken(user: User, res: Response) {
     const token = await this.jwtService.signAsync(
-      { sub: user.id, role: user.role.role, type: 'refresh' },
+      { sub: user.id, role: user.role.name, type: 'refresh' },
       {
         secret: this.configService.get('REFRESH_TOKEN_SECRET'),
         expiresIn: '24h',

@@ -23,7 +23,26 @@ export class SignUpDto {
   @IsNotEmpty()
   name: string;
 
+  @ApiProperty({ description: '국가코드' })
+  @IsNumber()
+  @IsNotEmpty()
+  country: number;
+
+  @ApiProperty({ description: '조직코드' })
+  @IsNumber()
+  @IsNotEmpty()
+  organization: number;
+
+  @ApiProperty({ description: '주소', example: '서울 강남구' })
+  @IsString()
+  @IsNotEmpty()
+  address: string;
+
   @ApiProperty({ description: '권한 ID', example: 2 })
   @IsNumber()
   role: number;
+
+  @ApiProperty({ description: '가입 상태 ID', example: 1 })
+  @IsNumber()
+  registrationStatus: number;
 }
